@@ -115,21 +115,51 @@ document.addEventListener('DOMContentLoaded', () => {
     counterEls.forEach(el => countObserver.observe(el));
   }
 
-  /* ── Contact form submit (demo) ─────────────── */
+  /* ── Contact form submit (Instant WhatsApp Inquiry) ── */
   const contactForm = document.getElementById('contact-form');
   contactForm?.addEventListener('submit', (e) => {
     e.preventDefault();
+
+    const name = document.getElementById('form-name')?.value.trim();
+    const phone = document.getElementById('form-phone')?.value.trim();
+    const email = document.getElementById('form-email')?.value.trim();
+    const service = document.getElementById('form-service')?.value;
+    const message = document.getElementById('form-message')?.value.trim();
+
+    if (!name || !message) {
+      alert('Please enter your name and message before submitting.');
+      return;
+    }
+
+    // Build structured inquiry text for WhatsApp
+    let text = `*New Printing Inquiry — Kirti Printing Press*\n\n`;
+    text += `👤 *Customer Name:* ${name}\n`;
+    if (phone) text += `📞 *Phone Number:* ${phone}\n`;
+    if (email) text += `✉️ *Email Address:* ${email}\n`;
+    if (service) text += `🖨️ *Service Required:* ${service}\n`;
+    text += `📝 *Message / Order Details:* ${message}\n\n`;
+    text += `📎 *File Attachment Note:* Kindly share any design files, documents, or artwork for printing (PDF, PNG, JPG, AI, CDR, etc.) directly in this chat. Thank you!`;
+
+    const whatsappUrl = `https://wa.me/919826655655?text=${encodeURIComponent(text)}`;
+
     const btn = contactForm.querySelector('.form-submit');
-    const original = btn.innerHTML;
-    btn.innerHTML = '✅ &nbsp; Message Sent!';
-    btn.style.background = '#34C759';
+    const originalContent = btn.innerHTML;
+
+    btn.innerHTML = '💬 &nbsp; Opening WhatsApp…';
+    btn.style.background = '#25D366';
     btn.disabled = true;
+
     setTimeout(() => {
-      btn.innerHTML = original;
-      btn.style.background = '';
-      btn.disabled = false;
-      contactForm.reset();
-    }, 3000);
+      window.open(whatsappUrl, '_blank');
+      btn.innerHTML = '✅ &nbsp; Sent to WhatsApp!';
+
+      setTimeout(() => {
+        btn.innerHTML = originalContent;
+        btn.style.background = '';
+        btn.disabled = false;
+        contactForm.reset();
+      }, 3000);
+    }, 400);
   });
 
 });

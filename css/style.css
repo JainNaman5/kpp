@@ -50,6 +50,7 @@ body {
   color: var(--body-text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 img { display: block; max-width: 100%; }
@@ -576,19 +577,25 @@ ul { list-style: none; }
 .services-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
+  gap: 18px;
 }
 
 .service-card {
+  --card-clr: var(--accent);
+  --card-bg: var(--accent-light);
+  --card-glow: rgba(0, 113, 227, 0.25);
   background: var(--bg-white);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
-  padding: 28px 20px 24px;
+  padding: 24px 18px 22px;
   text-align: center;
-  cursor: default;
+  cursor: pointer;
   transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .service-card::before {
@@ -596,7 +603,7 @@ ul { list-style: none; }
   position: absolute;
   bottom: 0; left: 0; right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--accent), #5AC8FA);
+  background: var(--card-clr);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.35s ease;
@@ -604,26 +611,84 @@ ul { list-style: none; }
 
 .service-card:hover {
   transform: translateY(-6px);
-  box-shadow: var(--shadow-card-hover);
-  border-color: var(--border);
+  box-shadow: 0 14px 36px var(--card-glow);
+  border-color: var(--card-clr);
 }
 .service-card:hover::before { transform: scaleX(1); }
 
-.service-icon {
-  font-size: 36px;
+.service-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--card-bg);
+  color: var(--card-clr);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 14px;
-  display: block;
-  line-height: 1;
+  transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
+}
+
+.service-card:hover .service-icon-wrap {
+  transform: translateY(-2px) scale(1.08);
+  background: var(--card-clr);
+  color: #ffffff;
+  box-shadow: 0 6px 20px var(--card-glow);
+}
+
+.service-icon-wrap svg {
+  width: 26px;
+  height: 26px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
   transition: transform 0.3s ease;
 }
-.service-card:hover .service-icon { transform: scale(1.15); }
 
 .service-name {
-  font-size: 13.5px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
   color: var(--charcoal);
   line-height: 1.3;
+  margin-bottom: 4px;
+  transition: color 0.3s ease;
 }
+
+.service-card:hover .service-name {
+  color: var(--card-clr);
+}
+
+.service-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.45;
+  font-weight: 400;
+}
+
+/* ─── Per-Service Colorful Palettes ───────────────── */
+#service-color-printing   { --card-clr: #E60067; --card-bg: #FFEAEF; --card-glow: rgba(230, 0, 103, 0.28); }
+#service-flex-printing    { --card-clr: #FF6A00; --card-bg: #FFF2E8; --card-glow: rgba(255, 106, 0, 0.28); }
+#service-binding          { --card-clr: #0088A8; --card-bg: #E6F7FA; --card-glow: rgba(0, 136, 168, 0.28); }
+#service-trophies         { --card-clr: #D98200; --card-bg: #FFF8E6; --card-glow: rgba(217, 130, 0, 0.28); }
+#service-photocopies      { --card-clr: #0066FF; --card-bg: #EBF2FF; --card-glow: rgba(0, 102, 255, 0.28); }
+#service-id-cards         { --card-clr: #6B4EFF; --card-bg: #F0EDFF; --card-glow: rgba(107, 78, 255, 0.28); }
+#service-invitation-cards { --card-clr: #FF2A55; --card-bg: #FFEAF0; --card-glow: rgba(255, 42, 85, 0.28); }
+#service-vinyl-printing   { --card-clr: #9A24D4; --card-bg: #F7E8FF; --card-glow: rgba(154, 36, 212, 0.28); }
+#service-posters          { --card-clr: #FF4500; --card-bg: #FFEBE6; --card-glow: rgba(255, 69, 0, 0.28); }
+#service-bill-books       { --card-clr: #00A859; --card-bg: #E6F7EF; --card-glow: rgba(0, 168, 89, 0.28); }
+#service-acrylic          { --card-clr: #009BB0; --card-bg: #E6FAFC; --card-glow: rgba(0, 155, 176, 0.28); }
+#service-recycle-bags     { --card-clr: #10B981; --card-bg: #ECFDF5; --card-glow: rgba(16, 185, 129, 0.28); }
+#service-seals            { --card-clr: #DC2626; --card-bg: #FEF2F2; --card-glow: rgba(220, 38, 38, 0.28); }
+#service-certificates     { --card-clr: #C27803; --card-bg: #FEF9C3; --card-glow: rgba(194, 120, 3, 0.28); }
+#service-wedding-cards    { --card-clr: #BE185D; --card-bg: #FCE7F3; --card-glow: rgba(190, 24, 93, 0.28); }
+#service-photo-collage    { --card-clr: #0284C7; --card-bg: #E0F2FE; --card-glow: rgba(2, 132, 199, 0.28); }
+#service-stickers         { --card-clr: #F59E0B; --card-bg: #FEF3C7; --card-glow: rgba(245, 158, 11, 0.28); }
+#service-lamination       { --card-clr: #0EA5E9; --card-bg: #E0F2FE; --card-glow: rgba(14, 165, 233, 0.28); }
+#service-calendars        { --card-clr: #EA580C; --card-bg: #FFEDD5; --card-glow: rgba(234, 88, 12, 0.28); }
+#service-pamphlets        { --card-clr: #4F46E5; --card-bg: #EEF2FF; --card-glow: rgba(79, 70, 229, 0.28); }
 
 /* ═══════════════════════════════════════════════════
    WHY US
@@ -1077,4 +1142,99 @@ footer {
   .services-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .hero-float-card { display: none; }
   .machinery-grid { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════════════════════════════════════════
+   FLOATING WHATSAPP BUTTON
+   ═══════════════════════════════════════════════════ */
+.whatsapp-float {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  background: #25D366;
+  color: #ffffff;
+  border-radius: 100px;
+  padding: 12px 22px 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 6px 24px rgba(37, 211, 102, 0.45), 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, background 0.3s ease;
+  animation: wa-pulse 3s infinite;
+}
+
+.whatsapp-float:hover {
+  transform: translateY(-4px) scale(1.04);
+  background: #20BA5A;
+  box-shadow: 0 10px 32px rgba(37, 211, 102, 0.6);
+  color: #ffffff;
+}
+
+.whatsapp-float-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+@keyframes wa-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6), 0 6px 24px rgba(37, 211, 102, 0.4); }
+  70% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0), 0 6px 24px rgba(37, 211, 102, 0.4); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0), 0 6px 24px rgba(37, 211, 102, 0.4); }
+}
+
+@media (max-width: 640px) {
+  .whatsapp-float {
+    bottom: 20px;
+    right: 20px;
+    padding: 12px;
+    border-radius: 50%;
+  }
+  .whatsapp-float-text {
+    display: none;
+  }
+}
+
+/* ─── Map Location Card ───────────────────────── */
+.map-link-card {
+  margin-top: 24px;
+  padding: 16px 20px;
+  background: var(--bg-section);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.map-link-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+.map-card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--charcoal);
+}
+.map-card-sub {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+.map-btn {
+  font-size: 13px;
+  padding: 8px 18px;
+  background: #EA4335;
+  box-shadow: 0 2px 10px rgba(234, 67, 53, 0.3);
+  white-space: nowrap;
+}
+.map-btn:hover {
+  background: #D93025;
+  box-shadow: 0 4px 16px rgba(234, 67, 53, 0.4);
 }
